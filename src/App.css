@@ -2,13 +2,24 @@ html,
 body {
   height: 100%;
 }
-body {
+.dark-theme body {
   margin: 0;
-  background: -webkit-linear-gradient(45deg, #49a09d, #5f2c82);
-  background: linear-gradient(45deg, #49a09d, #5f2c82);
+  background: -webkit-linear-gradient(45deg, #151d1c, #5f2c82);
+  background: linear-gradient(45deg, #303232, #5f2c82);
   font-family: sans-serif;
   font-weight: 100;
+  color: white;
 }
+
+.light body {
+  margin: 0;
+  background: -webkit-linear-gradient(45deg, #f3f5f5, #5f2c82);
+  background: linear-gradient(45deg, #f0f1f1, #5f2c82);
+  font-family: sans-serif;
+  font-weight: 100;
+  color: black;
+}
+
 .container {
   position: absolute;
   top: 50%;
@@ -26,11 +37,30 @@ table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 th,
-td {
+.dark-theme td {
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
+
+.light td {
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #221f1f;
+}
+
+.dark-theme .theme-moon{
+  position: absolute;
+  visibility: hidden;
+  left: 20px;
+}
+
+.light .theme-sun{
+  position: absolute;
+  visibility: hidden;
+  left: 20px;
+}
+
 th {
   text-align: left;
 }
@@ -55,7 +85,7 @@ tbody td:hover:before {
 }
 
 .pagination{
-  position: absolute;
+  position: fixed;
   /* top:670px;
   padding-left: 350px; */
   top: 95%;
@@ -68,4 +98,33 @@ tbody td:hover:before {
   border-radius: 10px;
   background-color: white;
   color: #5f2c82;
+}
+
+.flex-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.theme-btn {
+  z-index: 99999;
+  position: fixed;
+  right: 0;
+  top: 100px;
+  background: #6a59d1;
+  backdrop-filter: blur(20px);
+  width: 50px;
+  height: 50px;
+  font-size: 1.2em;
+  border-radius: 5px 0 0 5px;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+}
+
+.theme-btn .fa-sun, .theme-btn.sun .fa-moon {
+  display: none;
+}
+
+.theme-btn.sun .fa-sun {
+  display: block;
 }

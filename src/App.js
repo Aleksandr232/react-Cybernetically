@@ -1,9 +1,14 @@
 import "./App.css";
+import sun from './icon-sun.png';
+import moon from './moon.png';
+
 import fakeData from "./MOCK_DATA.json";
 import * as React from "react";
+import { useTheme } from "./hooks/useTheme";
 import { useTable, usePagination } from "react-table";
 
 function App() {
+  const { theme, setTheme } = useTheme();
   const data = React.useMemo(() => fakeData, []);
   const columns = React.useMemo(
     () => [
@@ -35,6 +40,17 @@ function App() {
     []
   );
 
+  const ThemeClick = () => {
+    theme === "light" ? setTheme("dark-theme") : setTheme("light");
+    console.log("тема", theme);
+  };
+  
+  const handlePageSizeChange = () => {
+    setPageSize(pageSize + 10);
+  };
+
+  
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -46,6 +62,7 @@ function App() {
     canNextPage,
     pageOptions,
     state,
+    pageSize=10,
     setPageSize,
     prepareRow,
   } = useTable(
@@ -54,20 +71,21 @@ function App() {
       data,
       initialState: {
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 10
       },
+      
     },
     usePagination
   );
 
-  const { pageIndex, pageSize } = state;
-
-  React.useEffect(() => {
-    setPageSize(10); // Устанавливаем фиксированный размер страницы при загрузке приложения
-  }, [setPageSize]);
+  const { pageIndex } = state;
 
   return (
     <div className="App">
+      <div onClick={ThemeClick} className="theme-btn flex-center">
+        <img className="theme-sun" src={sun} alt="" />
+        <img className="theme-moon" src={moon} alt="" />
+      </div>
       <div className="container">
         <table {...getTableProps()}>
           <thead>
@@ -96,19 +114,23 @@ function App() {
         </table>
       </div>
       <div className="pagination">
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            Назад
-          </button>
-          <span>
-              Page{" "}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>{" "}
-          </span>
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
-            Следущая
-          </button>
-        </div>
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          Назад
+        </button>
+        <span>
+          Page{" "}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{" "}
+        </span>
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          Следущая
+        </button>
+      </div>
+      
+      <button onClick={handlePageSizeChange}></button>
+      
+     
     </div>
   );
 }
