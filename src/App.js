@@ -2,23 +2,34 @@ import "./App.css";
 import sun from './icon-sun.png';
 import moon from './moon.png';
 
-import fakeData from "./MOCK_DATA.json";
-import * as React from "react";
+/* import fakeData from "./MOCK_DATA.json"; */
+import React,{ useEffect, useMemo }  from "react";
 import { useTheme } from "./hooks/useTheme";
 import { useTable, usePagination } from "react-table";
 
-function App() {
+import { connect } from 'react-redux';
+import { fetchData } from "./redux/actions";
+
+function App({  loading, data, error, fetchData}) {
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  /* if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>
+  } */
   const { theme, setTheme } = useTheme();
-  const data = React.useMemo(() => fakeData, []);
-  const columns = React.useMemo(
+ /*  const data = React.useMemo(() => fetchData, []); */
+  const columns = useMemo(
     () => [
+      
       {
-        Header: "ID",
-        accessor: "id",
-      },
-      {
-        Header: "First Name",
-        accessor: "first_name",
+        Header: "Название компании",
+        accessor: "companyName",
       },
       {
         Header: "Last Name",
@@ -87,7 +98,7 @@ function App() {
         <img className="theme-moon" src={moon} alt="" />
       </div>
       <div className="container">
-        <table {...getTableProps()}>
+         <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
@@ -99,7 +110,7 @@ function App() {
               </tr>
             ))}
           </thead>
-          <tbody {...getTableBodyProps()}>
+           <tbody {...getTableBodyProps()}>
             {page.map((row) => {
               prepareRow(row);
               return (
@@ -135,4 +146,16 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    data: state.data,
+    error: state.error
+  };
+};
+
+const mapDispatchToProps = {
+  fetchData
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
