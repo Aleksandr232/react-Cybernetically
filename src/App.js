@@ -2,50 +2,45 @@ import "./App.css";
 import sun from './icon-sun.png';
 import moon from './moon.png';
 
-/* import fakeData from "./MOCK_DATA.json"; */
-import React,{ useEffect, useMemo }  from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTheme } from "./hooks/useTheme";
 import { useTable, usePagination } from "react-table";
 
 import { connect } from 'react-redux';
 import { fetchData } from "./redux/actions";
 
-function App({  loading, data, error, fetchData}) {
+function App({ loading, data, error, fetchData }) {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
   /* if (loading) {
-    return <p>Loading...</p>;
+    return <p>Загрузка...</p>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>
+    return <p>Ошибка: {error}</p>
   } */
+
   const { theme, setTheme } = useTheme();
- /*  const data = React.useMemo(() => fetchData, []); */
+
   const columns = useMemo(
     () => [
-      
       {
-        Header: "Название компании",
-        accessor: "companyName",
+        Header: "Символ",
+        accessor: "symbol",
       },
       {
-        Header: "Last Name",
-        accessor: "last_name",
+        Header: "Цена",
+        accessor: "price",
       },
       {
-        Header: "Email",
-        accessor: "email",
+        Header: "Размер",
+        accessor: "size",
       },
       {
-        Header: "Gender",
-        accessor: "gender",
-      },
-      {
-        Header: "University",
-        accessor: "university",
+        Header: "Дата",
+        accessor: "time",
       },
     ],
     []
@@ -55,12 +50,6 @@ function App({  loading, data, error, fetchData}) {
     theme === "light" ? setTheme("dark-theme") : setTheme("light");
     console.log("тема", theme);
   };
-  
-  const handlePageSizeChange = () => {
-    setPageSize(pageSize + 10);
-  };
-
-  
 
   const {
     getTableProps,
@@ -73,7 +62,7 @@ function App({  loading, data, error, fetchData}) {
     canNextPage,
     pageOptions,
     state,
-    pageSize=10,
+    pageSize = 10,
     setPageSize,
     prepareRow,
   } = useTable(
@@ -84,7 +73,6 @@ function App({  loading, data, error, fetchData}) {
         pageIndex: 0,
         pageSize: 10
       },
-      
     },
     usePagination
   );
@@ -98,7 +86,7 @@ function App({  loading, data, error, fetchData}) {
         <img className="theme-moon" src={moon} alt="" />
       </div>
       <div className="container">
-         <table {...getTableProps()}>
+        {<table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
@@ -110,7 +98,7 @@ function App({  loading, data, error, fetchData}) {
               </tr>
             ))}
           </thead>
-           <tbody {...getTableBodyProps()}>
+          <tbody {...getTableBodyProps()}>
             {page.map((row) => {
               prepareRow(row);
               return (
@@ -122,26 +110,22 @@ function App({  loading, data, error, fetchData}) {
               );
             })}
           </tbody>
-        </table>
+        </table>}
       </div>
       <div className="pagination">
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
           Назад
         </button>
         <span>
-          Page{" "}
+          Страница{" "}
           <strong>
-            {pageIndex + 1} of {pageOptions.length}
+            {pageIndex + 1} из {pageOptions.length}
           </strong>{" "}
         </span>
         <button onClick={() => nextPage()} disabled={!canNextPage}>
-          Следущая
+          Вперед
         </button>
       </div>
-      
-      <button onClick={handlePageSizeChange}></button>
-      
-     
     </div>
   );
 }
