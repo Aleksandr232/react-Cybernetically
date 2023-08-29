@@ -18,8 +18,10 @@ function App({ loading, data, error, fetchData }) {
 
   const { theme, setTheme } = useTheme();
 
+ 
   const columns = useMemo(
     () => [
+      
       {
         Header: "Символ",
         accessor: "symbol",
@@ -34,7 +36,7 @@ function App({ loading, data, error, fetchData }) {
       },
       {
         Header: "Дата",
-        accessor: "time",
+        accessor:'time',
       },
     ],
     []
@@ -71,10 +73,10 @@ function App({ loading, data, error, fetchData }) {
 
   const exportToExcel = () => {
     const formattedData = data.map(item => ({
-      Symbol: item.symbol,
-      Price: item.price,
-      Size: item.size,
-      Date: item.time
+      Символ: item.symbol,
+      Цена: item.price,
+      Размер: item.size,
+      Дата: new Date(item.time)
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(formattedData);
@@ -85,12 +87,15 @@ function App({ loading, data, error, fetchData }) {
     saveAs(new Blob([excelData], { type: "application/octet-stream" }), "акции.xlsx");
   };
 
+  
+
   return (
     <div className="App">
       <div onClick={ThemeClick} className="theme-btn flex-center">
         <img className="theme-sun" src={sun} alt="" />
         <img className="theme-moon" src={moon} alt="" />
       </div>
+      {loading ? (<span class="loader"></span>) : (<div>
       <div className="container">
         <table {...getTableProps()}>
           <thead>
@@ -131,6 +136,7 @@ function App({ loading, data, error, fetchData }) {
           </button>
       </div>
       <button className="btn_excel" onClick={exportToExcel}>Экспорт в Excel</button>
+      </div>)}
     </div>
   );
 }

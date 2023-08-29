@@ -61,6 +61,13 @@ th,
   left: 20px;
 }
 
+.light .pagination button{
+  width: 100px;
+  border-radius: 10px;
+  background-color: #5f2c82;
+  color: white;
+}
+
 th {
   text-align: left;
 }
@@ -97,7 +104,22 @@ tbody td:hover:before {
   
 }
 
-.btn_excel{
+.light .btn_excel{
+  width: 100px;
+  border-radius: 10px;
+  background-color: #5f2c82;
+  color: white;
+  position: fixed;
+  top: 93%;
+  left:70%;
+  max-height: 600px;
+}
+
+button{
+  cursor: pointer;
+}
+
+.dark-theme .btn_excel{
   width: 100px;
   border-radius: 10px;
   background-color: white;
@@ -107,6 +129,71 @@ tbody td:hover:before {
   left:70%;
   max-height: 600px;
 }
+
+.light .loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid black;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.light .loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left: 4px solid #5f2c82;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+
+
+
+.dark-theme .loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 4px solid white;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.dark-theme .loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-left: 4px solid #5f2c82;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
 
 .pagination button{
   width: 100px;

@@ -30,14 +30,16 @@ export const fetchDataFailure = (error) => {
 export const fetchData = () => {
   return (dispatch) => {
     dispatch(fetchDataRequest());
-    axios.get('https://api.iex.cloud/v1/tops/last?token=sk_4384cec44e684de4b82ba2e2d39b2336')
-      .then(response => {
-        const data = response.data;
-        dispatch(fetchDataSuccess(data));
-      })
-      .catch(error => {
-        const errorMessage = error.message;
-        dispatch(fetchDataFailure(errorMessage));
-      });
+    setTimeout(() => {
+        axios.get('https://api.iex.cloud/v1/tops/last?token=sk_4384cec44e684de4b82ba2e2d39b2336')
+          .then(response => {
+            const data = response.data;
+            dispatch(fetchDataSuccess(data));
+          })
+          .catch(error => {
+            const errorMessage = error.message;
+            dispatch(fetchDataFailure(errorMessage));
+          });
+      }, 2000);
   };
 };
