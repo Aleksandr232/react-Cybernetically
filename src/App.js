@@ -1,6 +1,6 @@
 import "./App.css";
-import sun from './icon-sun.png';
-import moon from './moon.png';
+import sun from './assets/img/icon-sun.png';
+import moon from './assets/img/moon.png';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 

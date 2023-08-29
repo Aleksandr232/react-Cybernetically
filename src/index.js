@@ -1,19 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from "./redux/reducers";
 import App from "./App";
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, compose(
+  applyMiddleware(thunk),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() 
+));
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  // Обертка провайдера Redux вокруг приложения
+ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </Provider>
+  </Provider>,
+  document.getElementById("root")
 );
