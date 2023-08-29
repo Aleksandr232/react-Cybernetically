@@ -95,6 +95,7 @@ function App({ loading, data, error, fetchData }) {
         <img className="theme-sun" src={sun} alt="" />
         <img className="theme-moon" src={moon} alt="" />
       </div>
+      {error ? (<div className="error_data">ОШИБКА ДАННЫХ</div>) : (<div>
       {loading ? (<span class="loader"></span>) : (<div>
       <div className="container">
         <table {...getTableProps()}>
@@ -136,6 +137,7 @@ function App({ loading, data, error, fetchData }) {
           </button>
       </div>
       <button className="btn_excel" onClick={exportToExcel}>Экспорт в Excel</button>
+      </div>)}
       </div>)}
     </div>
   );

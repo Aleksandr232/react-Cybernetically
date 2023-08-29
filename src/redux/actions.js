@@ -38,6 +38,7 @@ export const fetchData = () => {
           })
           .catch(error => {
             const errorMessage = error.message;
+            alert('ПРОБЛЕМЫ С API');
             dispatch(fetchDataFailure(errorMessage));
           });
       }, 2000);
