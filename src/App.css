@@ -128,3 +128,24 @@ tbody td:hover:before {
 .theme-btn.sun .fa-sun {
   display: block;
 }
+
+.light ::-webkit-scrollbar {
+  width: 10px;
+  background: white;
+}
+
+.dark-theme ::-webkit-scrollbar {
+  width: 10px;
+  background: -webkit-linear-gradient(45deg, #f3f5f5, #5f2c82);
+  background: linear-gradient(45deg,  #5f2c82);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 2em;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: #5f2c82;
+  border-radius: 2em;
+}
