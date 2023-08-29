@@ -85,11 +85,26 @@ tbody td:hover:before {
 }
 
 .pagination{
-  position: fixed;
-  /* top:670px;
-  padding-left: 350px; */
+  position: absolute;
   top: 95%;
-  left: 25%;
+  left: 42%;
+  max-height: 600px;
+  display: grid;
+  grid-template-columns: repeat(3, 190px);
+  -webkit-transform: translate(-42%, -42%);
+  transform: translate(-42%, -42%);
+  
+  
+}
+
+.btn_excel{
+  width: 100px;
+  border-radius: 10px;
+  background-color: white;
+  color: #5f2c82;
+  position: fixed;
+  top: 93%;
+  left:70%;
   max-height: 600px;
 }
 

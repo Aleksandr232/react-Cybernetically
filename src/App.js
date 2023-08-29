@@ -1,6 +1,8 @@
 import "./App.css";
 import sun from './icon-sun.png';
 import moon from './moon.png';
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
 
 import React, { useEffect, useMemo } from "react";
 import { useTheme } from "./hooks/useTheme";
@@ -13,14 +15,6 @@ function App({ loading, data, error, fetchData }) {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  /* if (loading) {
-    return <p>Загрузка...</p>;
-  }
-
-  if (error) {
-    return <p>Ошибка: {error}</p>
-  } */
 
   const { theme, setTheme } = useTheme();
 
@@ -62,22 +56,34 @@ function App({ loading, data, error, fetchData }) {
     canNextPage,
     pageOptions,
     state,
-    pageSize = 10,
     setPageSize,
     prepareRow,
   } = useTable(
     {
       columns,
       data,
-      initialState: {
-        pageIndex: 0,
-        pageSize: 10
-      },
+      initialState: { pageIndex: 0, pageSize: 10 },
     },
     usePagination
   );
 
   const { pageIndex } = state;
+
+  const exportToExcel = () => {
+    const formattedData = data.map(item => ({
+      Symbol: item.symbol,
+      Price: item.price,
+      Size: item.size,
+      Date: item.time
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const excelData = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+
+    saveAs(new Blob([excelData], { type: "application/octet-stream" }), "акции.xlsx");
+  };
 
   return (
     <div className="App">
@@ -86,14 +92,12 @@ function App({ loading, data, error, fetchData }) {
         <img className="theme-moon" src={moon} alt="" />
       </div>
       <div className="container">
-        {<table {...getTableProps()}>
+        <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
+                  <th {...column.getHeaderProps()}>{column.render("Header")}</th>
                 ))}
               </tr>
             ))}
@@ -104,13 +108,13 @@ function App({ loading, data, error, fetchData }) {
               return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   ))}
                 </tr>
               );
             })}
           </tbody>
-        </table>}
+        </table>
       </div>
       <div className="pagination">
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
@@ -124,8 +128,9 @@ function App({ loading, data, error, fetchData }) {
         </span>
         <button onClick={() => nextPage()} disabled={!canNextPage}>
           Вперед
-        </button>
+          </button>
       </div>
+      <button className="btn_excel" onClick={exportToExcel}>Экспорт в Excel</button>
     </div>
   );
 }
